@@ -1,0 +1,25 @@
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPlay,
+  faAngleLeft,
+  faAngleRight
+} from "@fortawesome/free-solid-svg-icons";
+
+function Player() {
+  return (
+    <div className="player">
+      <div className="time-control">
+        <p>Start Time</p>
+        <input type="range" />
+        <p>End time</p>
+      </div>
+
+      <FontAwesomeIcon size="2x" className="skip-back" icon={faAngleLeft} />
+      <FontAwesomeIcon size="2x" className="play" icon={faPlay} />
+      <FontAwesomeIcon size="2x" className="skip-forward" icon={faAngleRight} />
+    </div>
+  );
+}
+
+export default Player;
