@@ -15,6 +15,13 @@ function Player({ currentSong, isPlaying, setIsPlaying }) {
   });
   const audioRef = useRef(null);
 
+  //
+  function getTime(time) {
+    return (
+      Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
+    );
+  }
+
   // event Handlers
   const playSongHandler = () => {
     if (!isPlaying) {
@@ -31,23 +38,28 @@ function Player({ currentSong, isPlaying, setIsPlaying }) {
     const duration = e.target.duration;
 
     setSongInfo({
-      currentTime: getTime(currentTime),
-      duration: getTime(duration)
+      currentTime,
+      duration
     });
   };
 
-  function getTime(time) {
-    return (
-      Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
-    );
-  }
+  const dragHandler = e => {
+    audioRef.current.currentTime = e.target.value;
+    setSongInfo({ ...songInfo, currentTime: e.target.value });
+  };
 
   return (
     <div className="player">
       <div className="time-control">
-        <p>{songInfo.currentTime}</p>
-        <input type="range" />
-        <p>{songInfo.duration}</p>
+        <p>{getTime(songInfo.currentTime)}</p>
+        <input
+          value={songInfo.currentTime}
+          type="range"
+          max={songInfo.duration || 0}
+          min={0}
+          onChange={dragHandler}
+        />
+        <p>{getTime(songInfo.duration)}</p>
       </div>
       <div className="play-control">
         <FontAwesomeIcon size="2x" className="skip-back" icon={faAngleLeft} />
