@@ -1,0 +1,16 @@
+.library-song {
+  cursor: pointer;
+  display: flex;
+  padding: 1rem 2rem 1rem 2rem;
+  img {
+    width: 30%;
+  }
+
+  .song-description {
+    margin: 1rem;
+  }
+
+  &:hover {
+    background-color: rgb(61, 61, 93);
+  }
+}
