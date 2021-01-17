@@ -5,7 +5,9 @@
   width: 20rem;
   height: 100%;
   box-shadow: 2px 2px 50px rgb(204, 204, 204);
-
+  transform: translateX(-100%);
+  transition: all 0.5s ease;
+  opacity: 0;
   overflow: scroll;
 
   h2 {
@@ -20,6 +22,11 @@
   }
 
   .selected {
-    background-color: red;
+    background-color: rgba(99, 136, 140, 0.353);
   }
+}
+
+.active-library {
+  transform: translateX(0);
+  opacity: 1;
 }

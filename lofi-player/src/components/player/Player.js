@@ -8,7 +8,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./player.scss";
-function Player({ isPlaying, setIsPlaying, audioRef, songInfo, setSongInfo }) {
+function Player({
+  isPlaying,
+  setIsPlaying,
+  audioRef,
+  songInfo,
+  setSongInfo,
+  songs,
+  currentSong,
+  setCurrentSong
+}) {
   const playSongHandler = () => {
     if (isPlaying) {
       audioRef.current.pause();
@@ -29,6 +38,21 @@ function Player({ isPlaying, setIsPlaying, audioRef, songInfo, setSongInfo }) {
     setSongInfo({ ...songInfo, currentTime: e.target.value });
   };
 
+  const changeTrackHandler = direction => {
+    let currentSongIndex = songs.findIndex(song => song.id === currentSong.id);
+    if (direction === "forward") {
+      setCurrentSong(songs[(currentSongIndex + 1) % songs.length]);
+    }
+    if (direction === "back") {
+      if ((currentSongIndex - 1) % songs.length === -1) {
+        setCurrentSong(songs[songs.length - 1]);
+        return;
+      }
+
+      setCurrentSong(songs[(currentSongIndex - 1) % songs.length]);
+    }
+  };
+
   return (
     <div className="player">
       <div className="time-control">
@@ -44,7 +68,12 @@ function Player({ isPlaying, setIsPlaying, audioRef, songInfo, setSongInfo }) {
       </div>
 
       <div className="controls">
-        <FontAwesomeIcon className="back" icon={faAngleLeft} size="2x" />
+        <FontAwesomeIcon
+          className="back"
+          icon={faAngleLeft}
+          size="2x"
+          onClick={() => changeTrackHandler("back")}
+        />
         <FontAwesomeIcon
           className="play"
           icon={!isPlaying ? faPlay : faPause}
@@ -53,7 +82,12 @@ function Player({ isPlaying, setIsPlaying, audioRef, songInfo, setSongInfo }) {
         />
 
         {isPlaying}
-        <FontAwesomeIcon className="back" icon={faAngleRight} size="2x" />
+        <FontAwesomeIcon
+          className="forward"
+          icon={faAngleRight}
+          size="2x"
+          onClick={() => changeTrackHandler("forward")}
+        />
       </div>
     </div>
   );
