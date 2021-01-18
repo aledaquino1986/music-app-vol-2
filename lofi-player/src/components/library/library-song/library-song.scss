@@ -2,6 +2,8 @@
   cursor: pointer;
   display: flex;
   padding: 1rem 2rem 1rem 2rem;
+  transition: background 0.5s ease;
+  margin-top: 2rem;
   img {
     width: 30%;
   }
@@ -11,6 +13,6 @@
   }
 
   &:hover {
-    background-color: rgb(61, 61, 93);
+    background-color: rgb(121, 162, 204);
   }
 }

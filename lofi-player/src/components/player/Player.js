@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -16,7 +16,8 @@ function Player({
   setSongInfo,
   songs,
   currentSong,
-  setCurrentSong
+  setCurrentSong,
+  setSongs
 }) {
   const playSongHandler = () => {
     if (isPlaying) {
@@ -27,6 +28,23 @@ function Player({
     setIsPlaying(!isPlaying);
   };
 
+  const activeLibraryHandler = nextPreviousSong => {
+    const newSongs = songs.map(song => {
+      if (song.id === nextPreviousSong.id) {
+        return {
+          ...song,
+          active: true
+        };
+      } else {
+        return {
+          ...song,
+          active: false
+        };
+      }
+    });
+
+    setSongs(newSongs);
+  };
   const formatTime = time => {
     return (
       Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
@@ -38,25 +56,33 @@ function Player({
     setSongInfo({ ...songInfo, currentTime: e.target.value });
   };
 
-  const changeTrackHandler = direction => {
+  const changeTrackHandler = async direction => {
     let currentSongIndex = songs.findIndex(song => song.id === currentSong.id);
     if (direction === "forward") {
-      setCurrentSong(songs[(currentSongIndex + 1) % songs.length]);
+      await setCurrentSong(songs[(currentSongIndex + 1) % songs.length]);
+      activeLibraryHandler(songs[(currentSongIndex + 1) % songs.length]);
     }
     if (direction === "back") {
       if ((currentSongIndex - 1) % songs.length === -1) {
-        setCurrentSong(songs[songs.length - 1]);
+        await setCurrentSong(songs[songs.length - 1]);
+        if (isPlaying) {
+          audioRef.current.play();
+        }
+
         return;
       }
 
-      setCurrentSong(songs[(currentSongIndex - 1) % songs.length]);
+      await setCurrentSong(songs[(currentSongIndex - 1) % songs.length]);
+    }
+    if (isPlaying) {
+      audioRef.current.play();
     }
   };
 
   return (
     <div className="player">
       <div className="time-control">
-        <p>{formatTime(songInfo.duration)}</p>
+        <p>{songInfo.duration ? formatTime(songInfo.duration) : "0:00"}</p>
         <input
           type="range"
           min={0}

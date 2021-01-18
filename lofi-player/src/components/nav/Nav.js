@@ -6,7 +6,6 @@ import "./nav.scss";
 function Nav({ libraryStatus, setLibraryStatus }) {
   const buttonClickHandler = () => {
     setLibraryStatus(!libraryStatus);
-    console.log(libraryStatus);
   };
   return (
     <nav>

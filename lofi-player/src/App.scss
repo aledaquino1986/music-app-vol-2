@@ -7,3 +7,19 @@ h3 {
 h4 {
   font-weight: 400;
 }
+
+.App {
+  transition: all 0.5 ease;
+}
+
+.library-active {
+  margin-left: 10%;
+}
+
+@media screen and (max-width: 768px) {
+  ´ .song-container {
+    img {
+      width: 60%;
+    }
+  }
+}

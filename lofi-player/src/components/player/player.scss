@@ -21,3 +21,15 @@
     justify-content: space-between;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .player {
+    .time-control {
+      width: 90%;
+    }
+
+    .controls {
+      width: 60%;
+    }
+  }
+}
